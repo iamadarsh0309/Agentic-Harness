@@ -19,8 +19,7 @@ class RunResult:
 
 
 def run_program(source: str, out: TextIO) -> SlopError | None:
-    if sys.getrecursionlimit() < PYTHON_RECURSION_LIMIT:
-        sys.setrecursionlimit(PYTHON_RECURSION_LIMIT)
+    _ensure_recursion_limit()
     try:
         tokens = tokenize(source)
         program = parse(tokens)
@@ -28,6 +27,21 @@ def run_program(source: str, out: TextIO) -> SlopError | None:
     except SlopError as error:
         return error
     return None
+
+
+def check_program(source: str) -> SlopError | None:
+    """Check for lexical and syntax errors without executing the program."""
+    _ensure_recursion_limit()
+    try:
+        parse(tokenize(source))
+    except SlopError as error:
+        return error
+    return None
+
+
+def _ensure_recursion_limit() -> None:
+    if sys.getrecursionlimit() < PYTHON_RECURSION_LIMIT:
+        sys.setrecursionlimit(PYTHON_RECURSION_LIMIT)
 
 
 def run_source(source: str) -> RunResult:

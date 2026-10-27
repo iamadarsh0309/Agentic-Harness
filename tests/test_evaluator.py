@@ -84,6 +84,26 @@ hallucinate(i)✨"""
     assert run(source) == "3\n"
 
 
+def test_loadbearing_is_readable_in_a_loop_but_never_reassignable():
+    source = """loadbearing LIMIT = 3✨
+slop count = 0✨
+ralph count < LIMIT {
+    hallucinate(count)✨
+    count = count + 1✨
+}"""
+    assert run(source) == "0\n1\n2\n"
+
+
+def test_inner_scope_may_shadow_a_loadbearing_binding():
+    source = """loadbearing x = 1✨
+{
+    slop x = 2✨
+    hallucinate(x)✨
+}
+hallucinate(x)✨"""
+    assert run(source) == "2\n1\n"
+
+
 def test_function_locals_do_not_leak_and_globals_are_visible():
     source = """slop total = 0✨
 clanker add(n) {

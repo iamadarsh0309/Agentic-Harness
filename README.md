@@ -10,6 +10,12 @@ Files use the `.slop` extension and run with:
 uv run sloperator.py path/to/program.slop
 ```
 
+Pass `--check` to report lexical and syntax errors without executing the file:
+
+```bash
+uv run sloperator.py --check path/to/program.slop
+```
+
 ### Example
 
 ```slop
@@ -22,7 +28,7 @@ clanker describe(count) {
     }
 }
 
-slop MAX = 3✨
+loadbearing MAX = 3✨
 slop count = 0✨
 
 ralph count < MAX {
@@ -38,6 +44,7 @@ Prints `small slop` twice, then `big slop`.
 | SlopLang      | Conventional | Meaning                                                 |
 | ------------- | ------------ | ------------------------------------------------------- |
 | `slop`        | `let`        | Declare a mutable variable                              |
+| `loadbearing` | `const`      | Declare an immutable variable                           |
 | `clanker`     | `fn`         | Define a function                                       |
 | `vibe`        | `if`         | Conditional                                             |
 | `nah`         | `else`       | Else branch                                             |
@@ -50,7 +57,7 @@ Prints `small slop` twice, then `big slop`.
 | `✅`          | `true`       | Boolean true literal                                    |
 | `❌`          | `false`      | Boolean false literal                                   |
 
-There are no other reserved words, and no `break`, `continue`, `for`, or `else if`.
+The reserved words are `slop`, `loadbearing`, `clanker`, `vibe`, `nah`, `ralph`, and `ship`. There is no `break`, `continue`, `for`, or `else if`.
 
 ### Source Text
 
@@ -74,18 +81,20 @@ No implicit conversions.
 
 ### Variables
 
-`slop` declares a mutable variable and requires an initializer. A scope cannot declare a name twice, but an inner block may shadow an outer name.
+`slop` declares a mutable variable and `loadbearing` declares an immutable one; both require an initializer. A scope cannot declare a name twice, but an inner block may shadow an outer name.
 
 ```slop
 slop score = 10✨
-slop LIMIT = 100✨
+loadbearing LIMIT = 100✨
 score = score + 5✨
 score = score + 1✨
 ```
 
-Assignment is a statement, not an expression: `name = expression✨`. It updates the nearest existing `slop` variable. Reading or assigning an undefined name is a runtime error.
+Assignment is a statement, not an expression: `name = expression✨`. It updates the nearest existing variable. Reading or assigning an undefined name is a runtime error.
 
-Every brace block is a lexical scope. Assignment searches the current scope, then each enclosing scope.
+Assigning to a `loadbearing` binding is a runtime error: `cannot assign to loadbearing '<name>'`.
+
+Every brace block is a lexical scope. Assignment searches the current scope, then each enclosing scope. An inner block may shadow a `loadbearing` name with its own `slop` binding.
 
 ### Control Flow
 

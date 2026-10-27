@@ -22,6 +22,17 @@ def test_keywords_operators_and_emoji():
     ]
 
 
+def test_loadbearing_is_a_keyword():
+    assert types("loadbearing x = 1✨") == [
+        TokenType.LOADBEARING,
+        TokenType.IDENTIFIER,
+        TokenType.EQUAL,
+        TokenType.NUMBER,
+        TokenType.SPARKLES,
+        TokenType.EOF,
+    ]
+
+
 def test_two_character_operators_are_greedy():
     assert types("== != <= >= ||") == [
         TokenType.EQUAL_EQUAL,
@@ -49,6 +60,10 @@ def test_hallucinate_is_an_identifier_not_a_keyword():
 
 def test_string_may_contain_em_dash_and_opening_quote():
     assert tokenize("“x — “y”")[0].literal == "x — “y"
+
+
+def test_string_escapes():
+    assert tokenize("“a\\nb\\tc\\\\d”")[0].literal == "a\nb\tc\\d"
 
 
 @pytest.mark.parametrize(
