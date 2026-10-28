@@ -73,6 +73,7 @@ def test_string_escapes():
         ("x;", 1, "semicolons are not supported, end statements with ✨"),
         ("\n// nope", 2, "comments start with an em dash (—), not //"),
         ("– nope", 1, "'–' is an en dash, comments start with an em dash (—)"),
+        ("— a comment\n@", 2, "unexpected character '@'"),
         ("x”", 1, "unexpected closing quote ” without an opening “"),
         ("“abc", 1, "unterminated string"),
         ("“abc\n”", 1, "unterminated string"),
