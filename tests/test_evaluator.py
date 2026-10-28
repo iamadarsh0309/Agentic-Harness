@@ -50,6 +50,19 @@ def test_equality_never_coerces(expression: str, expected: str):
     assert run(source) == f"{expected}\n"
 
 
+def test_hallucinate_prints_nothing_as_blank_line():
+    assert run("hallucinate()✨") == "\n"
+
+
+def test_hallucinate_joins_arguments_with_spaces():
+    source = """clanker f() { }
+clanker nothing() { }
+hallucinate(“fib”, 5, “=”, 55)✨
+hallucinate(1, ✅, nothing(), f)✨
+hallucinate(0)✨"""
+    assert run(source) == "fib 5 = 55\n1 ✅ nil <clanker f>\n0\n"
+
+
 def test_short_circuit_skips_right_operand():
     assert run("hallucinate(❌ && 1 / 0 == 0)✨\nhallucinate(✅ || 1 / 0 == 0)✨") == "❌\n✅\n"
 
