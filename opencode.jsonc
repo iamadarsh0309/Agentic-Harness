@@ -13,6 +13,9 @@
       },
     },
   },
+  "watcher": {
+    "ignore": ["logs/**"],
+  },
   "permissions": [
     {
       "action": "run_slop",
