@@ -25,6 +25,9 @@ uv run ruff check
 uv run ty check
 ```
 
+Comparison tests live in `tests/test_comparisons.py`; run them with
+`uv run pytest tests/test_comparisons.py -q`.
+
 ## Regression tests
 
 Add a regression test whenever you fix a bug or change observable behavior — a
