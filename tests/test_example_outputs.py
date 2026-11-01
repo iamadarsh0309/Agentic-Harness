@@ -11,3 +11,11 @@ def test_equality_example_output():
     assert result.stdout == "✅\n❌\n❌\n"
     assert result.stderr == ""
     assert result.exit_code == 0
+
+
+def test_short_circuit_example_output():
+    source = (EXAMPLES / "short-circuit.slop").read_text(encoding="utf-8")
+    result = run_source(source)
+    assert result.stdout == "❌\n✅\n"
+    assert result.stderr == ""
+    assert result.exit_code == 0
