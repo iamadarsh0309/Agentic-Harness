@@ -16,7 +16,14 @@ syntax, written in Python 3.13.
 
 ## Validation
 
-Run all four from the project root before finishing a change:
+Formatting is part of the normal workflow: after any code change, run the
+formatter itself (not just the check), before anything else:
+
+```bash
+uv run ruff format
+```
+
+Then run all four from the project root before finishing a change:
 
 ```bash
 uv run pytest
@@ -24,6 +31,9 @@ uv run ruff format --check
 uv run ruff check
 uv run ty check
 ```
+
+If `ruff format --check` says files would be reformatted, run `uv run ruff format`
+to fix them and re-run the check — don't hand-fix formatting.
 
 Comparison tests live in `tests/test_comparisons.py`; run them with
 `uv run pytest tests/test_comparisons.py -q`.
