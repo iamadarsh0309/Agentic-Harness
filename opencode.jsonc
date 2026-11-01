@@ -27,6 +27,10 @@
         "url": "https://mcp.context7.com/mcp",
         "oauth": false,
       },
+      "notion": {
+        "type": "remote",
+        "url": "https://mcp.notion.com/mcp",
+      },
     },
   },
   "watcher": {
