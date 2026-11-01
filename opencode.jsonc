@@ -24,7 +24,7 @@
     "ignore": ["logs/**"],
   },
   "permissions": [
-    { "action": "read", "resource": "*.secrets", "effect": "deny" },
+    
     {
       "action": "run_slop",
       "resource": "*",
@@ -44,6 +44,16 @@
       "action": "subagent",
       "resource": "explore",
       "effect": "deny",
+    },
+
+    { "action": "read", 
+      "resource": "*.env", 
+     "effect": "deny"
+   },
+    {
+      "action": "skill",
+      "resource": "create-test-program",
+      "effect": "ask"
     },
   ],
 }
