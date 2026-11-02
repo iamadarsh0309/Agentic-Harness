@@ -242,3 +242,19 @@ hallucinate(n)✨"""
 def test_empty_program_produces_nothing():
     result = run_source("— nothing but a comment\n")
     assert (result.stdout, result.stderr, result.exit_code) == ("", "", 0)
+
+
+def test_identifiers_may_contain_digits():
+    # Regression: digits after the first character used to be a syntax error.
+    source = """slop score2 = 40✨
+score2 = score2 + 2✨
+hallucinate(score2)✨"""
+    assert run(source) == "42\n"
+
+
+def test_digits_are_allowed_in_function_and_parameter_names():
+    source = """clanker add2(a1, b2) {
+    ship a1 + b2✨
+}
+hallucinate(add2(40, 2))✨"""
+    assert run(source) == "42\n"
