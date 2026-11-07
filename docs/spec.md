@@ -88,6 +88,15 @@ score = score + 1✨
 
 Assignment is a statement, not an expression: `name = expression✨`. It updates the nearest existing variable. Reading or assigning an undefined name is a runtime error.
 
+`name += expression✨` is compound assignment: it evaluates the right-hand expression first, then adds it to the variable's current value and stores the result. Numbers add numerically and strings concatenate; mixing the two is a runtime error. It updates the nearest existing variable, like plain assignment.
+
+```slop
+slop n = 2✨
+n += 3 * 4✨   — n is 14
+slop greeting = “hooks”✨
+greeting += “ work”✨   — greeting is “hooks work”
+```
+
 Assigning to a `loadbearing` binding is a runtime error, in the declaring scope or any nested one:
 
 ```slop
@@ -172,7 +181,7 @@ variableDecl   -> ( "slop" | "loadbearing" ) IDENTIFIER "=" expression "✨" ;
 
 statement      -> assignStmt | ifStmt | loopStmt | returnStmt
                 | block | expressionStmt ;
-assignStmt     -> IDENTIFIER "=" expression "✨" ;
+assignStmt     -> IDENTIFIER ( "=" | "+=" ) expression "✨" ;
 ifStmt         -> "vibe" expression block ( "nah" block )? ;
 loopStmt       -> "ralph" expression block ;
 returnStmt     -> "ship" expression "✨" ;
